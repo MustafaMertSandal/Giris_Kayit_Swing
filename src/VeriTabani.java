@@ -37,17 +37,17 @@ public class VeriTabani {
         }
     }
 
-    public void addMember(String name, String nickName, String email, String password, String phone, byte[] photo){
+    public void addMember(Member member){
         String SQL = "INSERT INTO members (name, nickname, email, password, phone, photo) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(1, name);
-            pstmt.setString(2, nickName);
-            pstmt.setString(3, email);
-            pstmt.setString(4, password);
-            pstmt.setString(5, phone);
-            pstmt.setBytes(6, photo);
+            pstmt.setString(1, member.getName());
+            pstmt.setString(2, member.getNickName());
+            pstmt.setString(3, member.getEmail());
+            pstmt.setString(4, member.getPassword());
+            pstmt.setString(5, member.getPhone());
+            pstmt.setBytes(6, member.getPhoto());
             pstmt.executeUpdate();
 
             System.out.println("Veri eklendi!");
