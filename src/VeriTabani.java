@@ -23,7 +23,7 @@ public class VeriTabani {
                 "nickname VARCHAR(100) NOT NULL UNIQUE, " +
                 "email VARCHAR(100) NOT NULL UNIQUE, " +
                 "password VARCHAR(100) NOT NULL, " +
-                "phone VARCHAR(12) NOT NULL, " +
+                "phone VARCHAR(12), " +
                 "photo BYTEA" +
                 ")";
 
@@ -49,15 +49,14 @@ public class VeriTabani {
             pstmt.setString(5, member.getPhone());
             pstmt.setBytes(6, member.getPhoto());
             pstmt.executeUpdate();
-
-            System.out.println("Member eklendi!");
+            System.out.println("Member eklendi: Nickname = " + member.getNickName());
 
         } catch (SQLException e) {
             System.out.println("Member ekleme hatası: " + e.getMessage());
         }
     }
 
-    public Member getMember(String nickName){
+    public Member getMemberWithNickName(String nickName){
         String SQL = "SELECT * FROM members WHERE nickname = ?";
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -66,7 +65,24 @@ public class VeriTabani {
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()){
                 return new Member(rs.getString("name"), rs.getString("nickname"), rs.getString("email"),
-                           rs.getString("password"), rs.getString("phone"), rs.getBytes("photo"));
+                        rs.getString("password"), rs.getString("phone"), rs.getBytes("photo"));
+            }
+        }catch (SQLException e){
+            System.out.println("Member okuma hatası: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public Member getMemberWithMail(String mail){
+        String SQL = "SELECT * FROM members WHERE email = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, mail);
+
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()){
+                return new Member(rs.getString("name"), rs.getString("nickname"), rs.getString("email"),
+                        rs.getString("password"), rs.getString("phone"), rs.getBytes("photo"));
             }
         }catch (SQLException e){
             System.out.println("Member okuma hatası: " + e.getMessage());
