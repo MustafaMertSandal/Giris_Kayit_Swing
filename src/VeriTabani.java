@@ -89,4 +89,32 @@ public class VeriTabani {
         }
         return null;
     }
+
+    public Member getMember(String mailNickname){
+        String SQLmail = "SELECT * FROM members WHERE email = ?";
+        String SQLnickname = "SELECT * FROM members WHERE nickname = ?";
+        try {
+            PreparedStatement pstmtMail = conn.prepareStatement(SQLmail);
+            pstmtMail.setString(1, mailNickname);
+
+            ResultSet rsMail = pstmtMail.executeQuery();
+            if(rsMail.next()){
+                return new Member(rsMail.getString("name"), rsMail.getString("nickname"), rsMail.getString("email"),
+                        rsMail.getString("password"), rsMail.getString("phone"), rsMail.getBytes("photo"));
+            }else{
+                PreparedStatement pstmtNickname = conn.prepareStatement(SQLnickname);
+                pstmtNickname.setString(1, mailNickname);
+
+                ResultSet rsNickname = pstmtNickname.executeQuery();
+                if(rsNickname.next()){
+                    return new Member(rsNickname.getString("name"), rsNickname.getString("nickname"), rsNickname.getString("email"),
+                            rsNickname.getString("password"), rsNickname.getString("phone"), rsNickname.getBytes("photo"));
+                }
+            }
+
+        }catch (SQLException e){
+            System.out.println("Member okuma hatası: " + e.getMessage());
+        }
+        return null;
+    }
 }

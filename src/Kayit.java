@@ -20,6 +20,7 @@ public class Kayit extends javax.swing.JFrame {
     public Kayit() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.getRootPane().setDefaultButton(register);
     }
 
     /**
@@ -399,11 +400,16 @@ public class Kayit extends javax.swing.JFrame {
             member = new Member(nameS,nickNameS, mailS, passwordHash, phoneS, photoByte);
             db.addMember(member);
             JOptionPane.showMessageDialog(null, "Successfully Registered.");
+            Giris g = new Giris();
+            setVisible(false);
+            g.setVisible(true);
         }
     }
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        Giris g = new Giris();
+        setVisible(false);
+        g.setVisible(true);
     }
 
     private void deletePhotoActionPerformed(java.awt.event.ActionEvent evt) {
